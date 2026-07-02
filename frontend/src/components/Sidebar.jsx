@@ -1,16 +1,16 @@
 import "./Sidebar.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
     <div className="sidebar">
       <h2 className="logo">Todo GG App</h2>
       <div className="menu">
-        <Link className="link" to="/">Home</Link>
-        <Link className="link" to="/tasks">Tasks</Link>
-        <Link className="link" to="/priority">Priority</Link>
-        <Link className="link" to="/complete">Complete</Link>
-        <Link className="link" to="/settings">Settings</Link>
+        <NavLink className={({ isActive }) =>isActive ? "active" : "link"} to="/">Home</NavLink>
+        <NavLink className={({ isActive }) =>isActive ? "active" : "link"} to="/tasks">Tasks</NavLink>
+        <NavLink className={({ isActive }) =>isActive ? "active" : "link"} to="/priority">Priority</NavLink>
+        <NavLink className={({ isActive }) =>isActive ? "active" : "link"} to="/complete">Complete</NavLink>
+        <NavLink className={({ isActive }) =>isActive ? "active" : "link"} to="/settings">Settings</NavLink>
       </div>
       
     </div>

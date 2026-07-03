@@ -1,24 +1,34 @@
 import { useState } from "react";
 import "./Tasks.css";
 import { FiPlus } from "react-icons/fi";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash,FaCheck  } from "react-icons/fa";
 
 function Tasks() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
 
   const [editIndex, setEditIndex] = useState(null);
-  const [editText, setEditText] = useState("");
+ 
 
   //edit function
-  const startEdit = (index) => {
-  setEditIndex(index);
-  setEditText(tasks[index]);
+  const editTask = (index) => {
+    setTask(tasks[index]);
+    setEditIndex(index);
   };
 
   //addTask function
+
   const addTask = () => {
   if (task === "") return;
+
+  if (editIndex !== null) {
+    const updatedTasks = [...tasks];
+    updatedTasks[editIndex] = task;
+    setTasks(updatedTasks);
+    setEditIndex(null);   // exit edit mode
+    setTask("");          // clear input
+    return;               // stop here
+  }
 
   setTasks([...tasks, task]);
   setTask("");
@@ -57,7 +67,10 @@ function Tasks() {
           <div key={index} className="task-card">
               {t}
               <div className="task-actions">
-                <FaEdit className="icon edit-icon" onClick={() => startEdit(index)}/>
+                {editIndex === index ? 
+                   (<FaCheck className="icon save-icon" onClick={addTask}/>) :
+                   (<FaEdit className="icon edit-icon" onClick={() => editTask(index)}/>)
+                }
                 <FaTrash className="icon delete-icon" onClick={() => deleteTask(index)}/>
               </div>
           </div>

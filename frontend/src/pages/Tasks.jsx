@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./Tasks.css";
+
+//icons
 import { FiPlus } from "react-icons/fi";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FaStar, FaRegStar } from "react-icons/fa";
@@ -11,10 +13,10 @@ function Tasks() {
   const [dueDate, setDueDate] = useState("");
   const [tasks, setTasks] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
-
+  const [search, setSearch] = useState("");
 
   //functions all
-  
+
   //important/ priority
   const toggleImportant = (index) => {
   const updatedTasks = [...tasks];
@@ -79,8 +81,15 @@ function Tasks() {
   const newTasks = tasks.filter((_, i) => i !== index);
   setTasks(newTasks);
 };
-  
-  
+
+  //search function  
+  const filteredTasks = search.trim() === ""
+      ? tasks
+      : tasks.filter((t) =>
+          t.text.toLowerCase().includes(search.toLowerCase())
+        );
+
+
   return (
   <>
   <div className="task-app">
@@ -88,10 +97,15 @@ function Tasks() {
     <h1 className="head">Tasks</h1>
 
     <div className="search-container">
-
+        <input
+          type="text"
+          placeholder="🔍 Search tasks..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
     </div>
     
-    
+
     <div className="input-box">
       <input 
         type="text" 
@@ -114,7 +128,7 @@ function Tasks() {
     </div>
     
     <div className="task-container">
-        {tasks.map((t, index) => (
+        {filteredTasks.map((t, index) => (
           <div key={index} className="task-card">
               <div>
                   {t.text}
